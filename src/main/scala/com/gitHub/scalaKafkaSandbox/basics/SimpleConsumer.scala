@@ -1,4 +1,4 @@
-package com.gitHub.scalaKafkaSandbox
+package com.gitHub.scalaKafkaSandbox.basics
 
 import org.apache.kafka.clients.consumer.KafkaConsumer
 
@@ -7,10 +7,10 @@ import scala.jdk.CollectionConverters.IterableHasAsScala
 
 object SimpleConsumer extends App {
 
-  val TOPIC="test"
+  val TOPIC = "test"
 
-  val  props = new Properties()
-  props.put("bootstrap.servers", "0.0.0.0:9092")
+  val props = new Properties()
+  props.put("bootstrap.servers", "localhost:29092")
 
   props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
   props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
@@ -20,9 +20,9 @@ object SimpleConsumer extends App {
 
   consumer.subscribe(Collections.singletonList(TOPIC))
 
-  while(true){
+  while (true) {
     val records = consumer.poll(100).asScala
-    for (record<-records.iterator){
+    for (record <- records.iterator) {
       println(record)
     }
   }
