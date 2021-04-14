@@ -6,7 +6,7 @@ import java.util.{Date, Properties}
 
 object SimpleProducer extends App {
   val props = new Properties()
-  props.put("bootstrap.servers", "localhost:9092")
+  props.put("bootstrap.servers", "0.0.0.0:9092")
   props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
