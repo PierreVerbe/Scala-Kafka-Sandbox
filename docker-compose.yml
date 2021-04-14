@@ -1,0 +1,52 @@
+version: '2.2'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+
+  kafka-broker1:
+    image: wurstmeister/kafka:2.13-2.7.0
+    container_name: kafka-broker1
+    ports:
+      - '9092:9092'
+    depends_on: 
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  kafka-broker2:
+    image: wurstmeister/kafka:2.13-2.7.0
+    container_name: kafka-broker2
+    ports:
+      - '9093:9092'
+    depends_on: 
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  kafka-broker3:
+    image: wurstmeister/kafka:2.13-2.7.0
+    container_name: kafka-broker3
+    ports:
+      - '9094:9092'
+    depends_on: 
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
