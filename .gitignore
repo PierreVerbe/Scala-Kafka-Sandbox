@@ -1,4 +1,7 @@
-.bsp
-.idea
+### Intellij ###
+.idea/
+
+### Simple Build Tool ###
+.bsp/
 target/
 project/
