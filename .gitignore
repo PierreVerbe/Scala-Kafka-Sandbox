@@ -3,5 +3,5 @@
 
 ### Simple Build Tool ###
 .bsp/
-target/
-project/
+target
+/project

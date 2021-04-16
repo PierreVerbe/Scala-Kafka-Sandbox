@@ -33,3 +33,21 @@ lazy val root = (project in file("."))
   .settings(
     name := "Kafka Sandbox project"
   )
+
+lazy val confluentSub = (project in file ("Confluent"))
+  .settings(commonSettings : _*)
+  .settings(
+    name := "Confluent tutorials sub project"
+  )
+
+lazy val flinkSub = (project in file ("Flink-Sub"))
+  .settings(commonSettings : _*)
+  .settings(
+    name := "Flink sub project"
+  )
+
+lazy val sparkSub = (project in file ("Spark-Sub"))
+  .settings(commonSettings : _*)
+  .settings(
+    name := "Spark sub project"
+  )
