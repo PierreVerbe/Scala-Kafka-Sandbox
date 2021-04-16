@@ -18,7 +18,7 @@ class KafkaProducerApplication(val producer: Producer[String, String], val outTo
     metadata.foreach(m => {
       try {
         val recordMetadata = m.get
-        System.out.println("Record written to offset " + recordMetadata.offset + " timestamp " + recordMetadata.timestamp)
+        println("Record written to offset " + recordMetadata.offset + " timestamp " + recordMetadata.timestamp)
       } catch {
         case _: InterruptedException => Thread.currentThread.interrupt()
       }

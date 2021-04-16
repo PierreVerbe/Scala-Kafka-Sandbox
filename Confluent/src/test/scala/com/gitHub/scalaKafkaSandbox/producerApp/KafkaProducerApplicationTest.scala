@@ -10,7 +10,7 @@ import scala.jdk.CollectionConverters._
 
 class KafkaProducerApplicationTest extends FunSuite {
 
-  final val TEST_CONFIG_FILE = "Confluent/src/test/resources/configuration/test.properties"
+  final val TEST_CONFIG_FILE = "Confluent/src/test/resources/configuration/test_producer.properties"
 
   test("Testing KafkaProducerApplication"){
     // Given
