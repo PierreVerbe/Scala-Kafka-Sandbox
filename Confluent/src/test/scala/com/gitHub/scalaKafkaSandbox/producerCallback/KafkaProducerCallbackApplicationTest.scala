@@ -12,7 +12,7 @@ class KafkaProducerCallbackApplicationTest extends FunSuite {
 
   final val TEST_CONFIG_FILE = "Confluent/src/test/resources/configuration/test_producer.properties"
 
-  test("Testing KafkaProducerCallbackApplication"){
+  test("Testing KafkaProducerCallbackApplication") {
     // Given
     val props = loadProperties(TEST_CONFIG_FILE)
     val topic = props.getProperty("output.topic.name")
