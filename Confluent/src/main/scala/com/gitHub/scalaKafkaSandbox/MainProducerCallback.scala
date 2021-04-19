@@ -13,11 +13,11 @@ object MainProducerCallback {
       "4-kafka")
 
     val props = loadProperties("Confluent/src/main/resources/configuration/dev_producer.properties")
-    val topic = props.getProperty("output.topic.name")
+    val topic = props.getProperty("input.topic.name")
     val producer = new KafkaProducer[String, String](props)
     val producerApp = new KafkaProducerCallbackApplication(producer, topic)
 
-    messages.filter(_.isEmpty).map(producerApp.produce)
+    messages.filter(_.nonEmpty).map(producerApp.produce)
     producerApp.shutdown()
   }
 
