@@ -1,11 +1,11 @@
 package com.gitHub.scalaKafkaSandbox.consumerApp
 
-import org.apache.kafka.clients.consumer.{Consumer, ConsumerRecord, ConsumerRecords}
+import org.apache.kafka.clients.consumer.Consumer
 
 import java.time.Duration
 import java.util.{Collections, Properties}
 
-class KafkaConsumerApplication(val consumer: Consumer[String, String]) {
+class KafkaConsumerApplication(val consumer: Consumer[String, String], val recordsHandler: ConsumerRecordsHandler[String, String]) {
 
   @volatile
   private var keepConsuming = true
@@ -15,9 +15,7 @@ class KafkaConsumerApplication(val consumer: Consumer[String, String]) {
       consumer.subscribe(Collections.singletonList(consumerProps.getProperty("input.topic.name")))
       while (keepConsuming) {
         val consumerRecords = consumer.poll(Duration.ofSeconds(1))
-        consumerRecords.forEach(record => {
-          println("Record written to offset " + record.offset() + " timestamp " + record.timestamp() + " value " + record.value())
-        })
+        recordsHandler.process(consumerRecords)
       }
     } finally consumer.close()
   }
