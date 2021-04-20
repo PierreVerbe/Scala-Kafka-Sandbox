@@ -15,13 +15,13 @@ class KafkaConsumerApplicationTest extends FunSuite {
 
   test("Testing KafkaConsumerApplication") {
     // Given
+    val recordsHandler = new FileWritingRecordsHandler()
     val props = loadProperties(TEST_CONFIG_FILE)
     val topic = props.getProperty("input.topic.name")
-
     val topicPartition = new TopicPartition(topic, 0)
     val mockConsumer = new MockConsumer[String, String](OffsetResetStrategy.EARLIEST)
 
-    val consumerApplication = new KafkaConsumerApplication(mockConsumer)
+    val consumerApplication = new KafkaConsumerApplication(mockConsumer, recordsHandler)
 
     val expectedList = List(KeyValue.pair("1", "Hello"),
       KeyValue.pair("2", "World"),
@@ -30,23 +30,20 @@ class KafkaConsumerApplicationTest extends FunSuite {
       KeyValue.pair(null, "noKeyHere"))
 
     // When
+    new Thread(() => consumerApplication.runConsume(props)).start()
+    Thread.sleep(500)
+    addTopicPartitionsAssignmentAndAddConsumerRecords(topic, mockConsumer, topicPartition)
+    Thread.sleep(500)
+    consumerApplication.shutdown()
 
     // Then
-    /*
-    val actualList = mockProducer.history.asScala.toList.map(toKeyValue)
-    assert(actualList.size == 5)
-    assert(actualList.equals(expectedList))
-
-    producerApp.shutdown()
-
-     */
-
+    val actualRecords = recordsHandler.listBufferRecords
+    assert(actualRecords.length == 5)
+    assert(actualRecords.equals(expectedList))
   }
 
-
-/*
   private def addTopicPartitionsAssignmentAndAddConsumerRecords(topic: String, mockConsumer: MockConsumer[String, String], topicPartition: TopicPartition): Unit = {
-    val beginningOffsets = new util.HashMap[TopicPartition, Long]()
+    val beginningOffsets = new util.HashMap[TopicPartition, java.lang.Long]()
     beginningOffsets.put(topicPartition, 0L)
     mockConsumer.rebalance(Collections.singletonList(topicPartition))
     mockConsumer.updateBeginningOffsets(beginningOffsets)
@@ -54,11 +51,11 @@ class KafkaConsumerApplicationTest extends FunSuite {
   }
 
   private def addConsumerRecords(mockConsumer: MockConsumer[String, String], topic: String): Unit = {
-    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 0, null, "foo"))
-    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 1, null, "bar"))
-    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 2, null, "baz"))
+    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 0, "1", "Hello"))
+    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 1, "2", "World"))
+    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 2, "3", "Apache"))
+    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 3, "4", "Kafka"))
+    mockConsumer.addRecord(new ConsumerRecord[String, String](topic, 0, 4, null, "noKeyHere"))
   }
-
- */
 
 }
