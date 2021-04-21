@@ -1,9 +1,9 @@
-package com.gitHub.scalaKafkaSandbox
+package com.gitHub.scalaKafkaSandbox.tool
 
 import java.io.{FileInputStream, IOException}
 import java.util.Properties
 
-object toolKafka {
+object KafkaTool {
 
   @throws[IOException]
   def loadProperties(fileName: String): Properties = {

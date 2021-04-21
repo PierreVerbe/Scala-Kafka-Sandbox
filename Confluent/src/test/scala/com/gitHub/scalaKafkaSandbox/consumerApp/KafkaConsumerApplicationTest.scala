@@ -1,6 +1,6 @@
 package com.gitHub.scalaKafkaSandbox.consumerApp
 
-import com.gitHub.scalaKafkaSandbox.toolKafka.loadProperties
+import com.gitHub.scalaKafkaSandbox.tool.KafkaTool.loadProperties
 import org.apache.kafka.clients.consumer.{ConsumerRecord, MockConsumer, OffsetResetStrategy}
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.streams.KeyValue

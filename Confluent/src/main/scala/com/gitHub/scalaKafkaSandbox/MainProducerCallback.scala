@@ -1,7 +1,7 @@
 package com.gitHub.scalaKafkaSandbox
 
 import com.gitHub.scalaKafkaSandbox.producerCallback.KafkaProducerCallbackApplication
-import com.gitHub.scalaKafkaSandbox.toolKafka.loadProperties
+import com.gitHub.scalaKafkaSandbox.tool.KafkaTool.loadProperties
 import org.apache.kafka.clients.producer.KafkaProducer
 
 object MainProducerCallback {

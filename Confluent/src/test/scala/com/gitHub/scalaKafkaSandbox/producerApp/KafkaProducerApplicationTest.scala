@@ -1,6 +1,6 @@
 package com.gitHub.scalaKafkaSandbox.producerApp
 
-import com.gitHub.scalaKafkaSandbox.toolKafka.loadProperties
+import com.gitHub.scalaKafkaSandbox.tool.KafkaTool.loadProperties
 import org.apache.kafka.clients.producer.{MockProducer, ProducerRecord}
 import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.kafka.streams.KeyValue
