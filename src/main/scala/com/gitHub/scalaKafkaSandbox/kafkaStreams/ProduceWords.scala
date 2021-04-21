@@ -1,26 +1,27 @@
-package com.gitHub.scalaKafkaSandbox
+package com.gitHub.scalaKafkaSandbox.kafkaStreams
 
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
-import java.util.{Date, Properties}
+import java.util.Properties
 
-object SimpleProducer extends App {
+object ProduceWords extends App {
+
   val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
+
   props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
 
   val producer = new KafkaProducer[String, String](props)
 
-  val topicName = "test"
+  val TOPIC = "WordsTopic"
 
-  for (i <- 1 to 50){
-    val record = new ProducerRecord[String, String](topicName, "key", s"hello kafka $i")
+  while (true) {
+    val record = new ProducerRecord(TOPIC, "key", s"hello apache kafka")
     producer.send(record)
+    //wait(500)
   }
 
-  val lastRecord = new ProducerRecord[String, String](topicName, "key", s"the end " + new Date())
-  producer.send(lastRecord)
-
   producer.close()
+
 }
