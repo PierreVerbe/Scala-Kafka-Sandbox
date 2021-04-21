@@ -7,9 +7,9 @@ import scala.jdk.CollectionConverters.IterableHasAsScala
 
 object ConsumeWordCount extends App {
 
-  val TOPIC="WordsWithCountsTopic"
+  val TOPIC = "WordsWithCountsTopic"
 
-  val  props = new Properties()
+  val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
 
   props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
@@ -20,9 +20,9 @@ object ConsumeWordCount extends App {
 
   consumer.subscribe(Collections.singletonList(TOPIC))
 
-  while(true){
+  while (true) {
     val records = consumer.poll(100).asScala
-    for (record<-records.iterator){
+    for (record <- records.iterator) {
       println(record)
     }
   }

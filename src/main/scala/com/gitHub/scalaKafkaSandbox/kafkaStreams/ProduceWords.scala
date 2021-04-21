@@ -6,7 +6,7 @@ import java.util.Properties
 
 object ProduceWords extends App {
 
-  val  props = new Properties()
+  val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
 
   props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
@@ -14,9 +14,9 @@ object ProduceWords extends App {
 
   val producer = new KafkaProducer[String, String](props)
 
-  val TOPIC="WordsTopic"
+  val TOPIC = "WordsTopic"
 
-  while(true){
+  while (true) {
     val record = new ProducerRecord(TOPIC, "key", s"hello apache kafka")
     producer.send(record)
     //wait(500)

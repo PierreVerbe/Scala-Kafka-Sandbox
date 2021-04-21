@@ -10,8 +10,8 @@ import java.util.Properties
 import java.util.concurrent.TimeUnit
 
 object WordCount extends App {
-  /*
 
+/*
   val props: Properties = {
     val p = new Properties()
     p.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application")
@@ -20,8 +20,8 @@ object WordCount extends App {
   }
 
   // Serializers/deserializers (serde) for String and Long types
-  final val stringSerde : Serde[String] = Serdes.String
-  final val longSerdeSerde : Serde[Long] = Serdes.Long
+  final val stringSerde: Serde[String] = Serdes.String
+  final val longSerdeSerde: Serde[Long] = Serdes.Long
 
   val builder: StreamsBuilder = new StreamsBuilder
   val textLines: KStream[String, String] = builder.stream[String, String]("WordsTopic")
@@ -40,6 +40,7 @@ object WordCount extends App {
 
   }
 
-   */
+ */
+
 
 }

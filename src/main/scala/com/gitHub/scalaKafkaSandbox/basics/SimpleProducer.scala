@@ -12,7 +12,7 @@ object SimpleProducer extends App {
 
   val producer = new KafkaProducer[String, String](props)
 
-  val topicName = "test"
+  val topicName = "output-topic"
 
   for (i <- 1 to 50) {
     val record = new ProducerRecord[String, String](topicName, "key", s"hello kafka $i")
