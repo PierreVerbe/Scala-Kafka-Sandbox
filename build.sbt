@@ -34,6 +34,12 @@ lazy val root = (project in file("."))
     name := "Kafka Sandbox project"
   )
 
+lazy val dataGenerator = (project in file("Data-Generator"))
+  .settings(libraryDependencies += scalaCheck)
+  .settings(
+    name := "Data generator project"
+  )
+
 lazy val confluentSub = (project in file("Confluent"))
   .settings(commonSettings: _*)
   .settings(
