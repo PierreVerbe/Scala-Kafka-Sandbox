@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="false">
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>
@@ -8,11 +8,11 @@
         </encoder>
     </appender>
 
-    <logger name="org.apache.kafka.clients" level="${TUTORIAL_LOG_LVL:-INFO}" additivity="false">
+    <logger name="org.apache.kafka.clients" level="INFO" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 
-    <root level="INFO">
+    <root level="TRACE">
         <appender-ref ref="STDOUT" />
     </root>
 

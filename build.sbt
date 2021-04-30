@@ -4,20 +4,42 @@ ThisBuild / version := "1.0"
 
 ThisBuild / scalaVersion := "2.13.5"
 
-// Properties build
+/**
+ * Properties Build
+ */
+lazy val pureConfigVersion = "0.15.0"
+lazy val logbackVersion = "1.2.3"
 lazy val kafkaVersion = "2.7.0"
 lazy val slf4jVersion = "1.7.30"
 lazy val scalaTestVersion = "3.0.8"
 lazy val scalaCheckVersion = "1.14.3"
 
+/**
+ * SBT Library Management
+ */
+// Configuration
+val pureConfig = "com.github.pureconfig" %% "pureconfig" % pureConfigVersion
+
+// Logging
+val slf4j = "org.slf4j" % "slf4j-simple" % slf4jVersion
+val logback = "ch.qos.logback" % "logback-classic" % logbackVersion
+
 // Apache Kafka
 val kafka = "org.apache.kafka" % "kafka-clients" % kafkaVersion
 val kafkaStreams = "org.apache.kafka" %% "kafka-streams-scala" % kafkaVersion
-val slf4j = "org.slf4j" % "slf4j-simple" % slf4jVersion
 
 // Tests
 val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion
 val scalaCheck = "org.scalacheck" %% "scalacheck" % scalaCheckVersion
+
+/**
+ * SBT Settings
+ */
+lazy val kafkaSettings = Seq(libraryDependencies ++= Seq(kafka, kafkaStreams))
+lazy val testPackageSettings = Seq(
+  libraryDependencies += scalaTest % Test,
+  libraryDependencies += scalaCheck % Test
+)
 
 lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(kafka,
@@ -28,8 +50,18 @@ lazy val commonSettings = Seq(
   libraryDependencies += scalaCheck % Test
 )
 
+lazy val rootSettings = kafkaSettings ++
+  testPackageSettings ++
+  Seq(
+    libraryDependencies += pureConfig,
+    libraryDependencies += logback,
+  )
+
+/**
+ * Project and Sub-Project
+ */
 lazy val root = (project in file("."))
-  .settings(commonSettings: _*)
+  .settings(rootSettings: _*)
   .settings(
     name := "Kafka Sandbox project"
   )
