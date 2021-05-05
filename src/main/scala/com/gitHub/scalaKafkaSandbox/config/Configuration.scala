@@ -4,22 +4,15 @@ import com.gitHub.scalaKafkaSandbox.config.Configuration.TopicConf.TopicSpec
 import com.typesafe.config.Config
 
 import java.util.Properties
-import scala.concurrent.duration.Duration
 import scala.jdk.CollectionConverters._
 
 object Configuration {
   case class ProducerConf(clientConfig: Config, topics: TopicConf)
 
-  case class ConsumerConf(clientConfig: Config, topics: TopicConf, host: String, port: Int)
+  case class ConsumerConf(clientConfig: Config, topics: TopicConf)
 
-  case class HelperConf(clientConfig: Config,
-                        topics: TopicConf,
-                        topicCreationTimeout: Duration,
-                        schemaRegistryRetriesNum: Int,
-                        schemaRegistryRetriesInterval: Duration)
-
-  case class TopicConf(bookTopic: TopicSpec) {
-    def all: Vector[TopicSpec] = Vector(bookTopic)
+  case class TopicConf(topicSpec: TopicSpec) {
+    def all: Vector[TopicSpec] = Vector(topicSpec)
   }
 
   object TopicConf {

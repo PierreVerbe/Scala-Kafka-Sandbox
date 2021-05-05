@@ -11,7 +11,8 @@ import pureconfig.generic.auto._
 import java.util.concurrent.Future
 import scala.concurrent.duration._
 
-object SimpleProd extends App with Configuration {
+object SimpleProducerPureConfig extends App with Configuration {
+
   def printMetaData(metadata: RecordMetadata): String =
     s"""topic: ${metadata.topic()},
        | partition: ${metadata.partition()},
@@ -24,7 +25,7 @@ object SimpleProd extends App with Configuration {
     producer.send(record, new Callback {
       override def onCompletion(metadata: RecordMetadata, exception: Exception): Unit = Option(exception)
         .map(ex => logger error s"fail to produce record due to: ${ex.getMessage}")
-        .getOrElse(logger warn s"successfully produced - ${printMetaData(metadata)}")
+        .getOrElse(logger info s"successfully produced - ${printMetaData(metadata)}")
     })
   }
 
@@ -32,7 +33,7 @@ object SimpleProd extends App with Configuration {
   private val logger: Logger = LoggerFactory.getLogger(getClass)
   private val producerConf = ConfigSource.file("src/main/resources/application/application.conf").at("producer").loadOrThrow[ProducerConf]
 
-  logger.debug("creating the kafka producer")
+  logger.info("creating the kafka producer")
 
   private val producer = new KafkaProducer[String, String](
     producerConf.clientConfig.toProperties,
@@ -40,21 +41,14 @@ object SimpleProd extends App with Configuration {
     Serdes.String.serializer()
   )
 
-  logger.debug("creating the serializer and configuration")
-  logger.error("closing the book producer application")
-  logger.warn("test")
+  logger.info("creating the serializer and configuration")
 
   if (enabledStdIn) {
     var input = ""
     while (input != "exit") {
       Thread.sleep(2.second.toMillis)
       input = scala.io.StdIn.readLine()
-      if (input != "exit") {
-        val books: Vector[String] = Vector("Hello", "world")
-        books.foreach { maybeBook =>
-          produce(producer, producerConf.topics.bookTopic.name, maybeBook)
-        }
-      }
+      if (input != "exit") produce(producer, producerConf.topics.topicSpec.name, input)
     }
   }
   else {
@@ -62,11 +56,11 @@ object SimpleProd extends App with Configuration {
 
     inputSeqWords.foreach { word =>
       Thread.sleep(2.second.toMillis)
-      produce(producer, producerConf.topics.bookTopic.name, word)
+      produce(producer, producerConf.topics.topicSpec.name, word)
     }
   }
 
-  logger warn "closing the book producer application"
+  logger warn "closing the word producer application"
   producer.flush()
   producer.close()
 }
